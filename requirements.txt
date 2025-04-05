@@ -1,0 +1,17 @@
+os
+subprocess
+re
+tk
+speechrecognition
+pyttsx3
+openai
+pathlib
+threading
+time
+python-dotenv
+openai>=1.12.0
+python-dotenv>=1.0.0
+tkinter>=0.0.0  
+PyAudio>=0.2.13  
+keyboard>=0.13.5  
+python-dateutil>=2.8.2  
