@@ -1,0 +1,41 @@
+# Environment files
+.env
+.env.*
+
+# Python cache and virtualenv
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyd
+*.pyo
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+app.log
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Scripts directory (if you don't want to track generated scripts)
+scripts/
+!scripts/README.md  # Keep this if exists
+
+# Local configuration
+config.json
+conversation_history.json
+
