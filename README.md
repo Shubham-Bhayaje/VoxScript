@@ -2,7 +2,7 @@
 
 ## UI Preview
 <p align="center">
-<img src="https://github.com/Shubham-Bhayaje/VoxScript/blob/main/Main_Ui.png" width="100%">
+<img src="https://github.com/Shubham-Bhayaje/VoxScript/blob/main/Flet_UI.png" width="100%">
 </p>
 
 ## Overview
