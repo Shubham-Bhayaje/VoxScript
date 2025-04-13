@@ -92,7 +92,7 @@ class VoiceAssistantApp:
         self.current_script_path = None
         
         # Initialize settings with default values
-        self.model_name = "gpt-4"
+        self.model_name = "gpt-4o"
         self.temperature = 0.7
         self.max_tokens = 2000
         self.voice_enabled = True
@@ -112,7 +112,7 @@ class VoiceAssistantApp:
     def load_settings(self):
         """Load settings with validation and defaults"""
         default_settings = {
-            "model_name": "gpt-4",
+            "model_name": "gpt-4o",
             "temperature": 0.7,
             "max_tokens": 2000,
             "voice_enabled": True,
@@ -135,11 +135,11 @@ class VoiceAssistantApp:
                             elif key == "max_tokens" and not (100 <= user_settings[key] <= 4000):
                                 logger.warning(f"Invalid max_tokens value: {user_settings[key]}")
                                 user_settings[key] = default_settings[key]
-        else:
-                            user_settings[key] = value
-            else:
-                user_settings = default_settings
-                self.save_settings(user_settings)
+                            else:
+                                user_settings[key] = value
+                        else:
+                            user_settings = default_settings
+                            self.save_settings(user_settings)
                 
             # Update instance variables
             self.model_name = user_settings["model_name"]
@@ -307,7 +307,7 @@ class VoiceAssistantApp:
                     on_click=self.read_response
                 ),
                 ElevatedButton(
-            text="Stop Reading",
+                    text="Stop Reading",
                     icon=Icons.STOP,
                     on_click=self.stop_reading,
                     disabled=True
@@ -424,7 +424,7 @@ class VoiceAssistantApp:
                 try:
                     logger.info("Processing speech...")
                     self.update_status("Processing speech...", "info")
-                        text = recognizer.recognize_google(audio)
+                    text = recognizer.recognize_google(audio)
                     
                     if text.strip():
                         logger.info(f"Recognized: {text}")
@@ -434,7 +434,7 @@ class VoiceAssistantApp:
                         logger.warning("No speech detected")
                         self.update_status("No speech detected", "warning")
                         
-                    except sr.UnknownValueError:
+                except sr.UnknownValueError:
                     logger.warning("Could not understand audio")
                     self.update_status("Could not understand audio", "warning")
                 except sr.RequestError as e:
@@ -463,7 +463,7 @@ class VoiceAssistantApp:
             
             # Start processing in a separate thread
             processing_thread = threading.Thread(
-            target=self._process_input_thread, 
+                target=self._process_input_thread, 
                 args=(user_input,)
             )
             processing_thread.daemon = True
@@ -540,8 +540,8 @@ class VoiceAssistantApp:
         model_dropdown = Dropdown(
             value=self.model_name,
             options=[
-                ft.dropdown.Option("gpt-4"),
-                ft.dropdown.Option("gpt-3.5-turbo")
+                ft.dropdown.Option("gpt-4o"),
+                
             ]
         )
         
@@ -874,16 +874,16 @@ class VoiceAssistantApp:
 
     def load_conversation_history(self):
         """Load conversation history from file"""
-            try:
+        try:
             if os.path.exists(HISTORY_PATH):
                 with open(HISTORY_PATH, 'r') as f:
                     return json.load(f)
             else:
                 logger.info("No conversation history found, starting new history")
                 return []
-            except Exception as e:
+        except Exception as e:
             logger.error(f"Error loading conversation history: {e}", exc_info=True)
-        return []
+            return []
 
     def save_conversation_history(self):
         """Save conversation history to file"""
@@ -920,7 +920,7 @@ class VoiceAssistantApp:
         try:
             match = re.search(r"```python\n(.*?)\n```", response_text, re.DOTALL)
             return match.group(1).strip() if match else None
-            except Exception as e:
+        except Exception as e:
             logger.error(f"Error extracting code: {e}", exc_info=True)
             return None
             
