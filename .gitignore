@@ -39,3 +39,4 @@ scripts/
 config.json
 conversation_history.json
 
+.qodo
