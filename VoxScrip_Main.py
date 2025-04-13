@@ -99,13 +99,13 @@ class VoiceAssistantApp:
         self.auto_save = True
         self.theme = "light"
         self.language = "en-US"
-        
+
         # Load settings
         self.load_settings()
-        
+      
         # Initialize UI components
         self.setup_ui()
-        
+
         # Load conversation history
         self.conversation_history = self.load_conversation_history()
         
@@ -135,7 +135,7 @@ class VoiceAssistantApp:
                             elif key == "max_tokens" and not (100 <= user_settings[key] <= 4000):
                                 logger.warning(f"Invalid max_tokens value: {user_settings[key]}")
                                 user_settings[key] = default_settings[key]
-                        else:
+        else:
                             user_settings[key] = value
             else:
                 user_settings = default_settings
@@ -307,7 +307,7 @@ class VoiceAssistantApp:
                     on_click=self.read_response
                 ),
                 ElevatedButton(
-                    text="Stop Reading",
+            text="Stop Reading",
                     icon=Icons.STOP,
                     on_click=self.stop_reading,
                     disabled=True
@@ -384,10 +384,10 @@ class VoiceAssistantApp:
             self.start_listening()
         else:
             self.stop_listening()
-            
+
     def start_listening(self):
         """Start speech recognition"""
-        if self.is_listening:
+        if self.is_listening:  
             return
             
         self.is_listening = True
@@ -399,7 +399,7 @@ class VoiceAssistantApp:
         self.listen_thread = threading.Thread(target=self.listen_for_voice)
         self.listen_thread.daemon = True
         self.listen_thread.start()
-        
+
     def stop_listening(self):
         """Stop speech recognition"""
         self.is_listening = False
@@ -407,7 +407,7 @@ class VoiceAssistantApp:
         self.mic_button.text = "🎤 Start Listening"
         self.mic_button.bgcolor = Colors.BLUE
         self.update_status("Stopped listening")
-        
+
     def listen_for_voice(self):
         """Enhanced voice recognition with better error handling and feedback"""
         try:
@@ -424,7 +424,7 @@ class VoiceAssistantApp:
                 try:
                     logger.info("Processing speech...")
                     self.update_status("Processing speech...", "info")
-                    text = recognizer.recognize_google(audio)
+                        text = recognizer.recognize_google(audio)
                     
                     if text.strip():
                         logger.info(f"Recognized: {text}")
@@ -434,19 +434,19 @@ class VoiceAssistantApp:
                         logger.warning("No speech detected")
                         self.update_status("No speech detected", "warning")
                         
-                except sr.UnknownValueError:
+                    except sr.UnknownValueError:
                     logger.warning("Could not understand audio")
                     self.update_status("Could not understand audio", "warning")
                 except sr.RequestError as e:
                     logger.error(f"Could not request results: {e}", exc_info=True)
                     self.update_status("Speech recognition service error", "error")
-                    
+                        
         except Exception as e:
             logger.error(f"Error in voice recognition: {e}", exc_info=True)
             self.update_status("Error in voice recognition", "error")
         finally:
             self.stop_listening()
-            
+
     def process_input(self, user_input):
         """Process user input and generate response"""
         if not user_input.strip():
@@ -463,7 +463,7 @@ class VoiceAssistantApp:
             
             # Start processing in a separate thread
             processing_thread = threading.Thread(
-                target=self._process_input_thread,
+            target=self._process_input_thread, 
                 args=(user_input,)
             )
             processing_thread.daemon = True
@@ -473,7 +473,7 @@ class VoiceAssistantApp:
             logger.error(f"Error processing input: {e}", exc_info=True)
             self.update_status("Error processing command", "error")
             self.response_text.value = f"Error: {str(e)}"
-            
+
     def _process_input_thread(self, user_input):
         """Thread for processing input and generating response"""
         try:
@@ -814,7 +814,7 @@ class VoiceAssistantApp:
             daemon=True
         )
         self.read_thread.start()
-        
+
         # Update status
         self.update_status("Reading response...", "info")
         
@@ -831,7 +831,7 @@ class VoiceAssistantApp:
                     break
                     
             self.page.update()
-            
+
     def _read_text(self, text):
         """Thread for text-to-speech reading"""
         try:
@@ -874,17 +874,17 @@ class VoiceAssistantApp:
 
     def load_conversation_history(self):
         """Load conversation history from file"""
-        try:
+            try:
             if os.path.exists(HISTORY_PATH):
                 with open(HISTORY_PATH, 'r') as f:
                     return json.load(f)
             else:
                 logger.info("No conversation history found, starting new history")
                 return []
-        except Exception as e:
+            except Exception as e:
             logger.error(f"Error loading conversation history: {e}", exc_info=True)
-            return []
-            
+        return []
+
     def save_conversation_history(self):
         """Save conversation history to file"""
         try:
@@ -893,7 +893,7 @@ class VoiceAssistantApp:
             logger.info("Conversation history saved successfully")
         except Exception as e:
             logger.error(f"Error saving conversation history: {e}", exc_info=True)
-            
+
     def update_history_display(self):
         """Update the history display in the UI"""
         try:
@@ -920,7 +920,7 @@ class VoiceAssistantApp:
         try:
             match = re.search(r"```python\n(.*?)\n```", response_text, re.DOTALL)
             return match.group(1).strip() if match else None
-        except Exception as e:
+            except Exception as e:
             logger.error(f"Error extracting code: {e}", exc_info=True)
             return None
             
